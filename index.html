@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monkey Type Test</title>
+    <style>
+        #Type_Test {
+            font-size: 26px;
+            margin-bottom: 20px;
+        }
+        #userInput {
+            font-size: 26px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        #result {
+            margin-top: 15px;
+            font-size: 20px;
+        }
+        .correct {
+            color: green;
+        }
+        .incorrect {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div id="Type_Test">
+    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Culpa ipsam alias quae atque, nobis labore cupiditate facilis accusantium recusandae dolore laboriosam quas earum mollitia blanditiis dolor suscipit aspernatur reiciendis officia!
+    </div>
+    <input type="text" id="userInput" autocomplete="off" placeholder="Start typing here..." />
+    <div id="result"></div>
+
+    <script>
+        const testText = document.getElementById("Type_Test").innerText;
+        const userInput = document.getElementById("userInput");
+        const result = document.getElementById("result");
+
+        userInput.addEventListener("input", function() {
+            let typed = userInput.value;
+            let display = "";
+            for (let i = 0; i < testText.length; i++) {
+                if (typed[i] == null) {
+                    display += `<span>${testText[i]}</span>`;
+                } else if (typed[i] === testText[i]) {
+                    display += `<span class="correct">${testText[i]}</span>`;
+                } else {
+                    display += `<span class="incorrect">${testText[i]}</span>`;
+                }
+            }
+            document.getElementById("Type_Test").innerHTML = display;
+
+            if (typed === testText) {
+                result.innerHTML = `Completed!`;
+                userInput.disabled = true;
+            } else {
+                result.innerHTML = "";
+            }
+        });
+    </script>
+</body>
+</html>
