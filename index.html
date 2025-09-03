@@ -1,64 +1,96 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Monkey Type Test</title>
-    <style>
-        #Type_Test {
-            font-size: 26px;
-            margin-bottom: 20px;
-        }
-        #userInput {
-            font-size: 26px;
-            width: 100%;
-            box-sizing: border-box;
-        }
-        #result {
-            margin-top: 15px;
-            font-size: 20px;
-        }
-        .correct {
-            color: green;
-        }
-        .incorrect {
-            color: red;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Monkey Type Test</title>
+  <style>
+    body {
+      background-color: #1e1e1e; 
+      color: #d1d1d1; 
+      font-family: "Fira Code", monospace;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      user-select: none; /* prevent text selection */
+    }
+
+    #Type_Test {
+      font-size: 28px;
+      line-height: 1.6;
+      max-width: 900px;
+      padding: 20px;
+      background: #2a2a2a;
+      border-radius: 10px;
+      text-align: left;
+      word-wrap: break-word;
+    }
+
+    #result {
+      margin-top: 20px;
+      font-size: 22px;
+      font-weight: bold;
+      color: #ff6600;
+    }
+
+    .correct {
+      color: lightgreen;
+    }
+
+    .incorrect {
+      color: #ff4c4c;
+      background: rgba(255, 76, 76, 0.1);
+      border-radius: 4px;
+    }
+  </style>
 </head>
 <body>
-    <div id="Type_Test">
-    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Culpa ipsam alias quae atque, nobis labore cupiditate facilis accusantium recusandae dolore laboriosam quas earum mollitia blanditiis dolor suscipit aspernatur reiciendis officia!
-    </div>
-    <input type="text" id="userInput" autocomplete="off" placeholder="Start typing here..." />
-    <div id="result"></div>
+  <div id="Type_Test"></div>
+  <div id="result"></div>
 
-    <script>
-        const testText = document.getElementById("Type_Test").innerText;
-        const userInput = document.getElementById("userInput");
-        const result = document.getElementById("result");
+  <script>
+    const testText =
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa ipsam alias quae atque, nobis labore cupiditate facilis accusantium recusandae dolore laboriosam quas earum mollitia blanditiis dolor suscipit aspernatur reiciendis officia!";
+    let typed = "";
+    const testDiv = document.getElementById("Type_Test");
+    const result = document.getElementById("result");
 
-        userInput.addEventListener("input", function() {
-            let typed = userInput.value;
-            let display = "";
-            for (let i = 0; i < testText.length; i++) {
-                if (typed[i] == null) {
-                    display += `<span>${testText[i]}</span>`;
-                } else if (typed[i] === testText[i]) {
-                    display += `<span class="correct">${testText[i]}</span>`;
-                } else {
-                    display += `<span class="incorrect">${testText[i]}</span>`;
-                }
-            }
-            document.getElementById("Type_Test").innerHTML = display;
+    function renderText() {
+      let display = "";
+      for (let i = 0; i < testText.length; i++) {
+        if (typed[i] == null) {
+          display += `<span>${testText[i]}</span>`;
+        } else if (typed[i] === testText[i]) {
+          display += `<span class="correct">${testText[i]}</span>`;
+        } else {
+          display += `<span class="incorrect">${testText[i]}</span>`;
+        }
+      }
+      testDiv.innerHTML = display;
+    }
+    renderText();
 
-            if (typed === testText) {
-                result.innerHTML = `Completed!`;
-                userInput.disabled = true;
-            } else {
-                result.innerHTML = "";
-            }
-        });
-    </script>
+    document.addEventListener("keydown", (e) => {
+      if (e.key.length === 1) {
+        typed += e.key;
+      } else if (e.key === "Backspace") {
+        typed = typed.slice(0, -1);
+      }
+
+      if (typed.length > testText.length) {
+        alert("You are out of range");
+        typed = typed.slice(0, testText.length);
+      }
+
+      renderText();
+
+      if (typed === testText) {
+        result.innerHTML = `✅ Completed!`;
+      }
+    });
+  </script>
 </body>
 </html>
